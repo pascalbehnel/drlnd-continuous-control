@@ -27,7 +27,6 @@ class Actor(nn.Module):
         self.fc3 = nn.Linear(64, 32)
         self.fc4 = nn.Linear(32, n_actions)
         
-        self.bn0 = nn.BatchNorm1d(n_states)
         self.bn1 = nn.BatchNorm1d(128)
         self.bn2 = nn.BatchNorm1d(64)
         self.bn3 = nn.BatchNorm1d(32)
@@ -47,7 +46,6 @@ class Actor(nn.Module):
         
     def forward(self, x):
         
-        #out = self.bn0(x)
         out = x
         out = F.relu(self.bn1(self.fc1(out)))
         out = F.relu(self.bn2(self.fc2(out)))
@@ -65,7 +63,6 @@ class Critic(nn.Module):
         self.n_actions = n_actions
         self.seed = torch.manual_seed(seed)
         
-        self.bn0 = nn.BatchNorm1d(n_states)
         self.fc1 = nn.Linear(n_states, 128)
         self.fc2 = nn.Linear(128 + n_actions, 64)
         self.fc3 = nn.Linear(64, 32)

@@ -23,7 +23,7 @@ SIGMA = 0.02
 
 
 class Agent:
-    def __init__(self, state_size, action_size, random_seed):
+    def __init__(self, state_size, action_size, random_seed):        
         self.state_size = state_size
         self.action_size = action_size
         self.learning_step = 0
@@ -40,6 +40,17 @@ class Agent:
         self.noise = OUNoise(action_size, random_seed, SIGMA)
 
     def step(self, state, action, reward, next_state, done):
+        '''
+        
+        Parameters
+        ----------
+        state : current state
+        action : action that was used
+        reward : reward received for using action in state
+        next_state : next state for using action in state
+        done : is environment solved?
+
+        '''
         self.memory.add(state, action, reward, next_state, done)
         
         if len(self.memory) >= BATCH_SIZE:
@@ -47,6 +58,14 @@ class Agent:
             self.learn(experiences, GAMMA)
         
     def act(self, state, noise=True):
+        '''
+
+        Parameters
+        ----------
+        state : current state
+        noise : use noise in order to explore the action state
+
+        '''
         state = torch.from_numpy(state).float().to(device)
         self.actor_local.eval()
         with torch.no_grad():    
