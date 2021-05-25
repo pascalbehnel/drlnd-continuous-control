@@ -24,6 +24,19 @@ SIGMA = 0.02
 
 class Agent:
     def __init__(self, state_size, action_size, random_seed):        
+        '''
+        
+        Parameters
+        ----------
+        state_size : length of state vector
+        action_size : length of action vector
+        random_seed : random seed, used for ReplayBuffer as well as for noise
+
+        Returns
+        -------
+        None.
+
+        '''
         self.state_size = state_size
         self.action_size = action_size
         self.learning_step = 0
@@ -82,6 +95,18 @@ class Agent:
         self.noise.reset()
         
     def learn(self, experiences, gamma):
+        '''
+        
+        Parameters
+        ----------
+        experiences : Batch of experiences used for learning
+        gamma : Discount Factor
+
+        Returns
+        -------
+        None.
+
+        '''
         # get experiences
         states, actions, rewards, next_states, dones = experiences
         self.learning_step += 1
@@ -106,8 +131,9 @@ class Agent:
         
         # update target networks
         if self.learning_step == 1:
-            self._weight_copy(self.critic_local, self.critic_target)
-            self._weight_copy(self.actor_local, self.actor_target)
+            # for first step, copy complete network
+            self.soft_update(self.critic_local, self.critic_target, 1)
+            self.soft_update(self.actor_local, self.actor_target, 1)
         else:
             self.soft_update(self.critic_local, self.critic_target, TAU)
             self.soft_update(self.actor_local,  self.actor_target,  TAU)
@@ -116,14 +142,25 @@ class Agent:
     def soft_update(self, local, target, tau):
         for target_param, local_param in zip(target.parameters(), local.parameters()):
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
-            
-    def _weight_copy(self, local, target):
-        for target_param, local_param in zip(target.parameters(), local.parameters()):
-            target_param.data.copy_(local_param.data) 
 
 
 class ReplayBuffer():
+    # Simple ReplayBuffer Class
+    
     def __init__(self, limit, sample_size, seed):
+        '''
+        
+        Parameters
+        ----------
+        limit : maximum number of saved experiences
+        sample_size : number of experiences sampled for each sample call
+        seed : random seed for sampling
+
+        Returns
+        -------
+        None.
+
+        '''
         self.limit = limit
         self.sample_size = sample_size
         self.memory = deque(maxlen=limit)
@@ -132,11 +169,13 @@ class ReplayBuffer():
         
         
     def add(self, state, action, reward, next_state, done):
+        # simply adds an experience to this ReplayBuffer
         e = self.experience(state, action, reward, next_state, done)
         self.memory.append(e)
         
         
     def sample(self):
+        # Samples an experience from the ReplayBuffer
         sample = random.sample(self.memory, k = self.sample_size)
         
         states = torch.from_numpy(np.vstack([e.state for e in sample if e is not None])).float().to(device)
@@ -152,9 +191,24 @@ class ReplayBuffer():
         
     
 class OUNoise:
+    # Simple class for Ornstein Uhlenbeck Noise signal creation
 
     def __init__(self, size, seed, sigma=0.2, mu=0., theta=0.15):
-        """Initialize parameters and noise process."""
+        '''
+        
+        Parameters
+        ----------
+        size : size of created noise vector
+        seed : random seed
+        sigma : sigma of noise signal. DEFAULT=0.2
+        mu : mean value of noise signal. DEFAULT=0
+        theta : mean reversion rate. DEFAULT=0.15
+
+        Returns
+        -------
+        None.
+
+        '''
         self.mu = mu * np.ones(size)
         self.theta = theta
         self.sigma = sigma
@@ -162,11 +216,11 @@ class OUNoise:
         self.reset()
 
     def reset(self):
-        """Reset the internal state (= noise) to mean (mu)."""
+        # reset current noise state to mean value (mu)
         self.state = copy.copy(self.mu)
 
     def sample(self):
-        """Update internal state and return it as a noise sample."""
+        # provide noise sample
         x = self.state
         dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
         self.state = x + dx

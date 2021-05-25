@@ -4,7 +4,7 @@
 
 # Network Architecture
 
-
+![](https://github.com/pascalbehnel/drlnd-continuous-control/blob/main/model_layout.PNG?raw=true)
 
 # Hyperparameters
 

@@ -9,12 +9,26 @@ import random
 
 
 def hidden_init(layer):
+    # used to init weights of hidden layers
     fan_in = layer.weight.data.size()[0]
     lim = 1. / np.sqrt(fan_in)
     return (-lim, lim)
 
 class Actor(nn.Module):
     def __init__(self, n_states, n_actions, seed):
+        '''
+        
+        Parameters
+        ----------
+        n_states : number of states
+        n_actions : number of actions
+        seed : random seed, used for weight initialization
+
+        Returns
+        -------
+        None.
+
+        '''
         super(Actor, self).__init__()
         
         self.n_states = n_states
@@ -34,6 +48,7 @@ class Actor(nn.Module):
         self.reset_parameters()
 
     def reset_parameters(self):
+        # initializes all the layers of this model
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
@@ -45,7 +60,7 @@ class Actor(nn.Module):
         
         
     def forward(self, x):
-        
+        # forward function for this model
         out = x
         out = F.relu(self.bn1(self.fc1(out)))
         out = F.relu(self.bn2(self.fc2(out)))
@@ -58,6 +73,19 @@ class Actor(nn.Module):
         
 class Critic(nn.Module):
     def __init__(self, n_states, n_actions, seed):
+        '''
+        
+        Parameters
+        ----------
+        n_states : number of states
+        n_actions : number of actions
+        seed : random seed
+
+        Returns
+        -------
+        None.
+
+        '''
         super(Critic, self).__init__()
         self.n_states = n_states
         self.n_actions = n_actions
@@ -72,6 +100,7 @@ class Critic(nn.Module):
         self.reset_parameters()
 
     def reset_parameters(self):
+        # initializes all the layers of this model
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
@@ -85,8 +114,7 @@ class Critic(nn.Module):
         
         
     def forward(self, states, actions):
-        
-        #states = self.bn0(states)
+        # forward function
         states = F.selu(self.fc1(states))
         x = torch.cat((states, actions), dim=1)
         x = F.selu(self.fc2(x))
