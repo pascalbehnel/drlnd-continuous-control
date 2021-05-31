@@ -8,6 +8,17 @@ For every step in the environment, if the tip of the arm is within it's target b
 
 The environment is considered solved, when the Agent has accumulated an average of 30 points over the span of 100 episodes. The herein proposed agent was able to solve that environment within 179 episodes.
 
+## Repository Content
+
+- Continuous_Control.ipynb
+  Jupyter Notebook for running this project
+- agent.py
+  Python file that containing the classes 'Agent', 'ReplayBuffer', 'OUNoise'
+- model.py
+  Python file that containing the deep learning models for the 'Actor' and the 'Critic'
+- Report.md
+  A Markdown File containing a more detailed explanation on this solution
+
 ## Getting Started
 
 1. Clone this repo
@@ -22,5 +33,6 @@ The environment is considered solved, when the Agent has accumulated an average 
 
    ```
    conda activate myenv
-   pip install .
+   pip install -r requirements.txt
    ```
+5. Start jupyter notebook. Make sure that it is at the root of this project

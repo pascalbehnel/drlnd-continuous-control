@@ -8,10 +8,10 @@ from collections import namedtuple, deque
 import random
 
 
-def hidden_init(layer):
+def layer_init(layer):
     # used to init weights of hidden layers
-    fan_in = layer.weight.data.size()[0]
-    lim = 1. / np.sqrt(fan_in)
+    x = layer.weight.data.size()[0]
+    lim = 1. / np.sqrt(x)
     return (-lim, lim)
 
 class Actor(nn.Module):
@@ -49,10 +49,11 @@ class Actor(nn.Module):
 
     def reset_parameters(self):
         # initializes all the layers of this model
-        self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
-        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
-        self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
+        self.fc1.weight.data.uniform_(*layer_init(self.fc1))
+        self.fc2.weight.data.uniform_(*layer_init(self.fc2))
+        self.fc3.weight.data.uniform_(*layer_init(self.fc3))
         self.fc4.weight.data.uniform_(-3e-3, 3e-3)
+        
         self.fc1.bias.data.fill_(0.1)
         self.fc2.bias.data.fill_(0.1)
         self.fc3.bias.data.fill_(0.1)
@@ -101,11 +102,12 @@ class Critic(nn.Module):
 
     def reset_parameters(self):
         # initializes all the layers of this model
-        self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
-        self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
-        self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
-        self.fc4.weight.data.uniform_(*hidden_init(self.fc4))
+        self.fc1.weight.data.uniform_(*layer_init(self.fc1))
+        self.fc2.weight.data.uniform_(*layer_init(self.fc2))
+        self.fc3.weight.data.uniform_(*layer_init(self.fc3))
+        self.fc4.weight.data.uniform_(*layer_init(self.fc4))
         self.fc5.weight.data.uniform_(-3e-3, 3e-3)
+        
         self.fc1.bias.data.fill_(0.1)
         self.fc2.bias.data.fill_(0.1)
         self.fc3.bias.data.fill_(0.1)

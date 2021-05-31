@@ -193,14 +193,14 @@ class ReplayBuffer():
 class OUNoise:
     # Simple class for Ornstein Uhlenbeck Noise signal creation
 
-    def __init__(self, size, seed, sigma=0.2, mu=0., theta=0.15):
+    def __init__(self, size, seed, sigma=0.1, mu=0., theta=0.15):
         '''
         
         Parameters
         ----------
         size : size of created noise vector
         seed : random seed
-        sigma : sigma of noise signal. DEFAULT=0.2
+        sigma : sigma of noise signal. DEFAULT=0.1
         mu : mean value of noise signal. DEFAULT=0
         theta : mean reversion rate. DEFAULT=0.15
 
@@ -221,7 +221,7 @@ class OUNoise:
 
     def sample(self):
         # provide noise sample
-        x = self.state
-        dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
-        self.state = x + dx
+        x1 = self.state
+        x2 = self.theta * (self.mu - x1) + self.sigma * np.array([random.random() for i in range(len(x1))])
+        self.state = x1 + x2
         return self.state
