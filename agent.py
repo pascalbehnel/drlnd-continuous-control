@@ -192,6 +192,7 @@ class ReplayBuffer():
     
 class OUNoise:
     # Simple class for Ornstein Uhlenbeck Noise signal creation
+    # based on https://github.com/udacity/deep-reinforcement-learning/blob/master/ddpg-pendulum/ddpg_agent.py
 
     def __init__(self, size, seed, sigma=0.1, mu=0., theta=0.15):
         '''

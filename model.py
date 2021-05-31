@@ -10,6 +10,7 @@ import random
 
 def layer_init(layer):
     # used to init weights of hidden layers
+    # based on https://jsideas.net/ddpg_reacher/
     x = layer.weight.data.size()[0]
     lim = 1. / np.sqrt(x)
     return (-lim, lim)
