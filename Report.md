@@ -25,9 +25,11 @@ In order to solve the 'explore / exploit' issue, the authors of the paper also i
 
 
 # Model
-Fully connected layers are used for both actor and critic networks. 
+Here is a diagram of the general architecture for both the Actor and the Critic Networks:
 
 ![](https://github.com/pascalbehnel/drlnd-continuous-control/blob/main/model_layout.PNG?raw=true)
+
+
 
 
 
