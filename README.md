@@ -4,7 +4,7 @@ The reacher environment is about learning from high dimensional state space, and
 
 ![](https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif)
 
-For every step in the environment, if the tip of the arm is within it's target ball, the Agent receives 0.1 points, thus, the goal of the Agent is to accumulate as many points as possible.
+For every step in the environment, if the tip of the arm is within it's target ball, the Agent receives 0.1 points, thus, the goal of the Agent is to accumulate as many points as possible. The observation space is a vector of 33 dimensions, containing information about the arm, as well as the environment that the arm is in. The action space is a vector of 4 dimensions within the boundaries of -1/ 1, corresponding to the forces applied to the joints of the arm.
 
 The environment is considered solved, when the Agent has accumulated an average of 30 points over the span of 100 episodes. The herein proposed agent was able to solve that environment within 179 episodes.
 

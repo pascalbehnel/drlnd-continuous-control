@@ -1,6 +1,6 @@
 # Reacher
 
-The reacher environment is about learning from high dimensional state space, and performing actions from a continuous action space. It contains an arm that has two joints which can be rotated freely. The goal for the agent is, by interacting with the environment, to learn how to move the joints, sothat the tip of the arm stays inside a moving target in the shape of a ball.
+The reacher environment is about learning from high dimensional state space, and performing actions from a continuous action space. It contains an arm that has two joints which can be rotated freely. The goal for the agent is, by interacting with the environment, to learn how to move the joints, so that the tip of the arm stays inside a moving target in the shape of a ball.
 
 ![](https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif)
 
@@ -56,7 +56,7 @@ The algorithm was able to solve the environment within 178 epochs. The environme
 
 In order to decrease the number of epochs needed to solve the environment, some optimizations might help:
 
-- Adapt number of layers. As of now i haven't played around much with this, but decreasing the number of layers in the Actor / Critic models might speed up the learning process.
+- Adapt number of layers. As of now I haven't played around much with this, but decreasing the number of layers in the Actor / Critic models might speed up the learning process.
 - Trying to solve the 20 Agent environment. Maybe having 20 Agents training in parallel helps the network to converge.
 - As of now, SIGMA is a constant. Instead, defining SIGMA in a more dynamic way, f.e. it being bigger in the beginning, and then decaying over time, might also help the network to converge, since we would like to explore more in the beginning, and less once we know more and more of the environment.
 
